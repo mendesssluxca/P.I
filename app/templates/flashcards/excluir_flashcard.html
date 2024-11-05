@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Flashcard - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+       
+
+        h1 {
+            text-align: center;
+            color: #343a40; /* Cor do título */
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #495057; /* Cor do texto */
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #dc3545; /* Vermelho */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Efeitos de transição */
+        }
+
+        button:hover {
+            background-color: #c82333; /* Vermelho mais escuro ao passar o mouse */
+            transform: scale(1.05); /* Leve aumento */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff; /* Azul */
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s; /* Transição suave para hover */
+        }
+
+        a:hover {
+            color: #0056b3; /* Azul mais escuro ao passar o mouse */
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+            {% else %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/sobre">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>           
+            {% endif %}
+        </nav>
+    </header>
+
+    <h1>Excluir Flashcard</h1>
+    <p>Você tem certeza que deseja excluir o flashcard "{{ flashcard.texto_frente }}"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Excluir</button>
+    </form>
+    <a href="{% url 'listar_flashcards' %}">Cancelar</a>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

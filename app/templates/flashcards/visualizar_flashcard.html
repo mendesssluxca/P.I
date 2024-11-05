@@ -1,0 +1,49 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+           
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+        {% else %}
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="#contact">Contato</a></li>
+        </ul>           
+        {% endif %}
+        
+
+
+        </nav>
+    </header>
+
+    <h1>{{ flashcard.texto_frente }}</h1>
+<p>{{ flashcard.texto_verso }}</p>
+<a href="{% url 'listar_flashcards' %}">Voltar</a>
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

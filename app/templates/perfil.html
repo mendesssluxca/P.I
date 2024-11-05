@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/sobre">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="perfil">
+        <div class="container">
+            <h1>Meu Perfil</h1>
+
+            {% if usuario %}
+                <h2>Informações Gerais</h2>
+                <p><strong>Nome:</strong> {{ usuario.user.nome }}</p>
+                <p><strong>Data de Nascimento:</strong> {{ usuario.user.datanasc }}</p>
+                <p><strong>CPF:</strong> {{ usuario.user.cpf }}</p>
+                <p><strong>Username:</strong> {{ usuario.user.username }}</p>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+            {% else %}
+                <h2>Complete seu Cadastro</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Salvar</button>
+                </form>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            width: 150px; /* Tamanho fixo para todos os botões */
+            margin: 5px; /* Espaçamento entre os botões */
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #3498db; /* Azul */
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-success {
+            background-color: #2ecc71; /* Verde */
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60; /* Verde mais escuro ao passar o mouse */
+        }
+
+        .btn-danger {
+            background-color: #e74c3c; /* Vermelho */
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b; /* Vermelho mais escuro ao passar o mouse */
+        }
+
+        .profile-section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .profile-section .perfil {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .profile-info {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .profile-info p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .profile-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .separator {
+            display: inline-block;
+            width: 20px; /* Espaçamento entre os botões */
+            vertical-align: middle; /* Alinha a barra ao centro dos botões */
+            color: #666; /* Cor da barra */
+            font-size: 24px; /* Tamanho da barra */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                {% if user.is_authenticated %}
+                    <!-- Removido o botão de logout do menu de navegação -->
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <section class="profile-section">
+        <h2 class="perfil">Meu Perfil</h2>
+        <div class="profile-info">
+            <p><strong>Nome de Usuário:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Nome:</strong> {{ usuario.nome }}</p>
+            <p><strong>Data de Nascimento:</strong> {{ usuario.datanasc }}</p>
+            <p><strong>CPF:</strong> {{ usuario.cpf }}</p>
+        </div>
+        <div class="profile-actions">
+            <a href="{% url 'editar_senha' %}" class="btn btn-primary">Alterar Senha</a>
+            <span class="separator">|</span>
+            <a href="{% url 'editar_perfil' %}" class="btn btn-success">Editar Perfil</a>
+            <span class="separator">|</span>
+            <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Excluir Conta</button>
+            <span class="separator">|</span>
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+        <!-- Formulário oculto para exclusão da conta -->
+        <form id="excluir-conta-form" method="post" action="{% url 'excluir_conta' %}" style="display:none;">
+            {% csrf_token %}
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function confirmarExclusao() {
+            if (confirm("Você tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita!")) {
+                document.getElementById('excluir-conta-form').submit();  // Submete o formulário após confirmação
+            } else {
+                alert("Exclusão de conta cancelada.");
+            }
+        }
+    </script>
+</body>
+</html>

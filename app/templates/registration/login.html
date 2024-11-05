@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    
+    <style>
+        /* Reset básico para remover margens e paddings padrão */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo geral do body */
+        body, html {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            height: 100%;
+        }
+
+        /* Wrapper para centralizar o conteúdo */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Estilo do header com centralização do logo e login */
+        header {
+            background-color: #2C3E50;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #E67E22;
+        }
+
+        .login-text {
+            font-size: 1.2rem;
+            color: #E67E22;
+            margin-left: 20px;
+        }
+
+        nav li {
+            list-style: none;
+        }
+
+        nav li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px 20px;
+            background-color: #2C3E50;
+            border: 2px solid #E67E22;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav li a:hover {
+            background-color: #E67E22;
+            color: white;
+        }
+
+        /* Espaçamento entre o cabeçalho e o formulário */
+        .login-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background: #fff; /* Alterado para azul */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #2C3E50; /* Mudando o título para branco por contraste */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form button {
+            width: 100%;
+            background-color: #E67E22; /* Botão laranja */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #D35400;
+            transform: scale(1.05);
+        }
+
+        /* Estilo do footer fixado no final da página */
+        footer {
+            background-color: #2C3E50;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            .login-box {
+                width: 90%;
+            }
+
+            form input[type="text"],
+            form input[type="password"],
+            form button {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .login-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <nav>
+                <div>
+                    <a href="/" class="logo">STUDYFLEX</a>
+                    <span class="login-text">Login</span>
+                </div>
+                <li><a href="/">Home</a></li>
+            </nav>
+        </header>
+
+        <div class="login-container">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

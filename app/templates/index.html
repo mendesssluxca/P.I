@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisiologia Humana</title>
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        nav a:hover {
+            color: #ffc107; 
+        }
+    </style>
+</head>
+</head>
+<body>
+    <header>
+
+        <nav>
+            <a href="/" class="logo">Fisiologia Humana</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+        {% else %}
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+        </ul>           
+        {% endif %}
+        </nav>
+
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <h1>Olá, {{ user.username }}!</h1>  
+            <p>Escolha uma funcionalidade:</p>
+            <h2>Funcionalidades</h2>
+<div class="feature-grid">
+    <a href="/flashcards" class="feature-item">
+        <h3>Flashcards</h3>
+        <p>Clique aqui para criar e organizar flashcards personalizados.</p>
+    </a>
+    <a href="/topicos" class="feature-item">
+        <h3>Tópicos</h3>
+        <p><b>Comece por aqui!</b> Crie e gerencie seus assuntos preferidos de estudo!</p>
+    </a>
+    <a href="/perfil" class="feature-item">
+        <h3>Meu Perfil</h3>
+        <p>Personalize e gerencie suas informações pessoais.</p>
+    </a>
+    <a href="/uploads" class="feature-item">
+        <h3>Meus Uploads</h3>
+        <p>Visualize e conecte suas ideias através de mapas mentais e imagens que você pode anexar!</p>
+    </a>
+     <a href="/uploads" class="feature-item">
+        <h3>Fórum</h3>
+        <p>Comente e exclareça suas dúvidas com a comunidade!</p>
+    </a> 
+</div>
+            {% else %}
+            <h1>Olá, visitante! </h1>        
+            <p>Bem-Vindo a plataforma de Fisiologia Humana! Faça login ou cadastre-se para ter acesso a nossas funcionaldiades:</p>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="auth-button">Login</a>
+                <a href="{% url 'register' %}" class="auth-button">Cadastrar</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Funcionalidades</h2>
+            <div class="feature-grid">
+
+                <div class="feature-item">
+                    <h3>Flashcards</h3>
+                    <p>Crie e organize flashcards personalizados.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Meus Uploads</h3>
+                    <p>Visualize e conecte suas ideias através de mapas mentais e imagens que você pode anexar!</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Meu Perfil</h3>
+                    <p>Personalize e gerencie suas preferências de estudo.</p>
+                </div>
+                 <div class="feature-item">
+                    <h3>Fórum</h3>
+                    <p>Comente e exclareça suas dúvidas com a comunidade!</p>
+                </div> 
+                <div class="feature-item">
+                    <h3>Contato</h3>
+                    <p>Entre em contato com a nossa equipe para suporte e feedback.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <footer>
+        <p>&copy; 2024 Fisiologia Humana. Todos os direitos reservados.</p>
+    </footer>
+</body>
+
+</html>

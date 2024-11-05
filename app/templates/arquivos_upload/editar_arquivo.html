@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Arquivo - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo da caixa centralizada */
+        .form-container {
+            background-color: #ffffff; /* Fundo da caixa */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px; /* Largura máxima da caixa */
+            margin: 0 auto; /* Centraliza a caixa */
+        }
+
+        /* Estilo para os botões */
+        .btn-salvar {
+            background-color: #28a745; /* Verde padrão */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            display: block; /* Para garantir que o botão ocupe toda a largura */
+            margin: 20px auto; /* Centralizar o botão */
+        }
+
+        .btn-salvar:hover {
+            background-color: #218838; /* Verde mais escuro ao passar o mouse */
+        }
+
+        .link-voltar {
+            display: inline-block;
+            text-align: center;
+            margin: 10px auto;
+            text-decoration: none;
+            color: #007bff; /* Cor do link */
+            font-size: 16px;
+        }
+
+        .link-voltar:hover {
+            text-decoration: underline; /* Sublinhado ao passar o mouse */
+        }
+
+        .nav-links {
+            list-style: none; /* Remove as bolinhas da lista */
+            padding: 0; /* Remove padding da lista */
+            display: flex; /* Alinha os links em linha */
+            gap: 15px; /* Espaçamento entre os links */
+        }
+
+        .nav-links a {
+            color: #ffffff; /* Cor dos links */
+            text-decoration: none; /* Remove sublinhado */
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline; /* Sublinhado ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="{% url 'sobre' %}" class="nav-link">Sobre</a></li>
+                <li><a href="#contact" class="nav-link">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </div>
+            {% endif %}
+        </nav>
+    </header>
+    <h1>Editar Arquivo</h1>
+    <div class="form-container">
+        <form class="form-editar-arquivo">  <!-- Não esqueça do enctype -->
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Renderiza o formulário -->
+            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+        </form>
+        <a href="{% url 'lista_uploads' %}" class="link-voltar">Voltar para a lista de arquivos</a>
+    </div>
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

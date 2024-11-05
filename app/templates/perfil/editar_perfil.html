@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .perfil-buttons {
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #3498db; /* Azul para o botão Salvar */
+            color: white;
+        }
+        
+        /* Logout button specific style */
+        .logout-button {
+            background-color: transparent;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .logout-button:hover {
+            color: #e74c3c; /* Cor de hover para logout */
+        }
+
+        /* Adicionando espaçamento entre os itens do formulário */
+        form div {
+            margin-bottom: 15px; /* Espaçamento entre os itens */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="auth-button logout-button">Logout</button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <section id="editar-perfil">
+        <div class="container">
+            <h1>Editar Perfil</h1>
+
+            <form method="post" onsubmit="return validarFormulario()">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="username">Nome de Usuário:</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                </div>
+                
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                </div>
+                
+                <div>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" value="{{ usuario.nome }}" required>
+                </div>
+                
+                <div>
+                    <label for="datanasc">Data de Nascimento:</label>
+                    <input type="date" id="datanasc" name="datanasc" value="{{ usuario.datanasc }}" required>
+                </div>
+                
+                <div>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" value="{{ usuario.cpf }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function validarFormulario() {
+            const datanasc = document.getElementById("datanasc").value;
+
+            // Verifica se a data de nascimento está vazia
+            if (!datanasc) {
+                alert("Por favor, insira sua Data de Nascimento.");
+                return false; // Impede o envio do formulário
+            }
+
+            // Validação do CPF (exemplo simplificado)
+            const cpf = document.getElementById("cpf").value;
+            if (!validarCPF(cpf)) {
+                alert("Por favor, insira um CPF válido.");
+                return false; // Impede o envio do formulário
+            }
+
+            return true; // Permite o envio do formulário
+        }
+
+        function validarCPF(cpf) {
+            // Validação simples (apenas para exemplo; ideal usar uma validação completa)
+            return cpf.length === 11 && /^\d+$/.test(cpf);
+        }
+    </script>
+</body>
+</html>

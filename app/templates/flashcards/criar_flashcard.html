@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Flashcard - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        .formulario {
+            width: 350px;
+            height:450px; /* Ajuste automático da altura */
+            margin: 20px auto; /* Centraliza e adiciona espaço acima e abaixo */
+            padding: 30px; /* Adiciona um espaçamento interno */
+            background-color: #fff; /* Cor de fundo branco */
+            border-radius: 15px; /* Bordas arredondadas */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            display: flex;
+            flex-direction: column; /* Organiza os elementos em coluna */
+            align-items: center; /* Centraliza os itens */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Espaçamento abaixo do título */
+        }
+
+        /* Adiciona espaçamento entre os campos do formulário */
+        .form-group {
+            margin-bottom: 15px; /* Espaçamento inferior entre os campos */
+            width: 100%; /* Faz os campos ocuparem toda a largura do card */
+        }
+
+        button {
+            margin-top: 20px; /* Espaço acima do botão */
+            background-color: #0069d9; /* Cor de fundo do botão */
+            color: #f8f9fa; /* Cor do texto do botão */
+            border: none; /* Remove bordas padrão */
+            border-radius: 5px; /* Bordas arredondadas para o botão */
+            padding: 10px; /* Adiciona espaçamento interno no botão */
+            cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+            width: 100%; /* Botão ocupa toda a largura do card */
+            transition: background-color 0.3s; /* Transição suave ao passar o mouse */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+            {% else %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="formulario">
+        <h1>Criar Flashcard</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.texto_frente.label }}<br>
+                {{ form.texto_frente }}
+            </div>
+            <div class="form-group">
+                {{ form.texto_verso.label }}<br>
+                {{ form.texto_verso }}
+            </div>
+            <div class="form-group">
+                {{ form.topico.label }}<br>
+                {{ form.topico }}
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

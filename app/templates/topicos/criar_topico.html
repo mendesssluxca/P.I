@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Tópico - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <STYLe>.container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    h2 {
+        color: #333;
+    }
+    
+    form {
+        margin: 20px 0;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 5px 0;
+        background-color: #3498db; /* Azul padrão */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .save-button {
+        background-color: #2ecc71; /* Verde para botão de salvar */
+    }
+    
+    .cancel-button {
+        background-color: #95a5a6; /* Cinza para botão de voltar */
+    }
+    
+    footer {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #35424a;
+        color: white;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+    </STYLe>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+        {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <div class="container">
+            <h2>Criar Tópico</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn save-button">Salvar</button>
+            </form>
+            <a href="{% url 'listar_topicos' %}" class="btn cancel-button">Voltar</a>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

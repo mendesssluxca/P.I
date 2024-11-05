@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDYFLEX - Personalize Your Study Experience</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #34495E, #4A69BB);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .read-more {
+            color: rgb(214, 214, 232);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .creator-section {
+            background: linear-gradient(135deg, #4d7198, #4061bb);
+            padding: 40px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .creator-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .creator-photo {
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            margin-right: 20px;
+        }
+
+        .creator-info {
+            color: black;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background: linear-gradient(135deg, #4d7198, #4061bb);
+            border-radius: 40px;
+        }
+
+        h2,
+        h3 {
+            text-align: center;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center; /* Centraliza os itens do nav */
+            align-items: center;
+            padding: 10px 20px; /* Adicionando padding para melhorar a aparência */
+            border-radius: 10px; /* Bordas arredondadas */
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px; /* Ajuste o espaçamento entre os links */
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #E67E22;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+                <a href="/">Home</a>
+                <a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a>
+                <div class="auth-buttons">
+                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="auth-button logout-button">Logout</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="/">Home</a>
+                <a href="#contact">Contato</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>Sobre </h1>
+            </div>
+
+            <div class="creator-section">
+                <h1>Criador</h1>
+                <div class="creator-info">
+                    <img src="{% static 'images/criador.jpg' %}" alt="Foto do Criador" class="creator-photo">
+                    <div class="personal-info">
+                        <p><strong>Nome:</strong> Lucas Eduardo Mendes de Araújo</p>
+                        <p><strong>Email:</strong> lucasm.araujo19@gmail.com</p>
+                        <p><strong>Descrição:</strong> Estudante do terceiro ano do curso técnico em informática e criador do STUDYFLEX.</p>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <h2>Sobre o <div class="logo">STUDYFLEX</div></h2>
+                <p id="sobre-texto">STUDYFLEX é uma aplicação web desenvolvida durante as aulas da disciplina de PSOO (projeto de software orientado a objetos) desenvolvida para fornecer uma experiência de estudo personalizada. <span class="hidden" id="sobre-extra">Criada por Lucas E. M. de Araújo e Paulo C. dos Santos, nossa plataforma visa melhorar a eficácia da aprendizagem, superando os desafios enfrentados pelos alunos que utilizam métodos tradicionais de ensino.</span> <span class="read-more" onclick="toggleTexto('sobre')">Leia mais</span></p>
+            </section>
+
+            <section>
+                <h3>Nossa Missão</h3>
+                <p id="missao-texto">Identificamos que muitos estudantes têm dificuldade em assimilar e reter conhecimento de forma eficiente. <span class="hidden" id="missao-extra">Por isso, nossa missão é oferecer ferramentas que promovam uma experiência de estudo adaptada às necessidades de cada aluno. Acreditamos que a personalização no aprendizado é fundamental para engajar todos os tipos de aprendizes.</span> <span class="read-more" onclick="toggleTexto('missao')">Leia mais</span></p>
+            </section>
+
+            <section>
+                <h3>Funcionalidades</h3>
+                <p id="funcionalidades-texto">Oferecemos diversas funcionalidades que aprimoram a experiência de estudo. <span class="hidden" id="funcionalidades-extra">Incluindo questionários personalizados, criação de flashcards e integração de mapas mentais.</span> <span class="read-more" onclick="toggleTexto('funcionalidades')">Leia mais</span></p>
+            </section>
+
+            <section>
+                <h3>Tecnologias Utilizadas</h3>
+                <p id="tecnologias-texto">Para desenvolver nossa plataforma, utilizamos tecnologias modernas como HTML, CSS e JavaScript. <span class="hidden" id="tecnologias-extra">Essas ferramentas nos permitiram criar uma interface interativa que facilita o acesso às principais funcionalidades do sistema.</span> <span class="read-more" onclick="toggleTexto('tecnologias')">Leia mais</span></p>
+            </section>
+
+            <section>
+                <h3>Fase de Protótipo</h3>
+                <p id="prototipo-texto">Atualmente, o STUDYFLEX encontra-se em fase de protótipo. <span class="hidden" id="prototipo-extra">Estamos empenhados em realizar testes com usuários reais para validar e aprimorar ainda mais a experiência do estudante. Nossa meta é garantir que a plataforma atenda efetivamente às necessidades dos usuários e ofereça uma experiência de aprendizado de alta qualidade.</span> <span class="read-more" onclick="toggleTexto('prototipo')">Leia mais</span></p>
+            </section>
+
+            <section>
+                <h3>Entre em Contato</h3>
+                <p id="contato-texto">Se você tem dúvidas, sugestões ou gostaria de colaborar conosco, não hesite em nos contatar. <span class="hidden" id="contato-extra">Estamos aqui para ouvir você!</span> <span class="read-more" onclick="toggleTexto('contato')">Leia mais</span></p>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        function toggleTexto(section) {
+            const extraText = document.getElementById(`${section}-extra`);
+            const readMoreLink = extraText.previousElementSibling;
+
+            if (extraText.classList.contains('hidden')) {
+                extraText.classList.remove('hidden');
+                readMoreLink.textContent = 'Leia menos';
+            } else {
+                extraText.classList.add('hidden');
+                readMoreLink.textContent = 'Leia mais';
+            }
+        }
+    </script>
+</body>
+
+</html>

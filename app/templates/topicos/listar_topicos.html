@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópicos - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+    
+    .btn {
+        display: inline-block;
+        background-color: #3498db;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+        color: #333333;
+    }
+    
+    .topic-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .topic-item {
+        padding: 10px;
+        border-bottom: 1px solid #dddddd;
+    }
+    
+    .topic-actions {
+        margin-top: 10px;
+    }
+    
+    .action-link {
+        margin-right: 10px;
+        color: #3498db;
+        text-decoration: none;
+    }
+    
+
+    </STYle>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+        {% endif %}
+        </nav>
+    </header>
+
+    <section id="perfil">
+        <div class="container">
+            {% block content %}
+            <h2>Tópicos</h2>
+            <a href="{% url 'criar_topico' %}" class="btn">Criar Novo Tópico</a>
+            <ul class="topic-list">
+                {% for topico in topicos %}
+                    <li class="topic-item">
+                        {{ topico.nome }} - {{ topico.disciplina.nome }}
+                        <div class="topic-actions">
+                            <a href="{% url 'editar_topico' topico.id_topico %}" class="action-link">Editar</a>
+                            <a href="{% url 'excluir_topico' topico.id_topico %}" class="action-link">Excluir</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endblock %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

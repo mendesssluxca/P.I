@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Senha - STUDYFLEX</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc; /* Fundo suave para a página */
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input[type="password"] {
+            width: calc(100% - 60px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d1d1;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: #ffe6e6; /* Cor de fundo mais clara para alertas */
+            color: #e74c3c; /* Vermelho mais suave */
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+        }
+
+        /* Estilo para os botões */
+        .button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button-submit {
+            background-color: #27ae60; /* Verde suave */
+            color: white;
+            width: 100%;
+        }
+
+        .button-toggle {
+            background-color: #f39c12; /* Amarelo suave */
+            color: white;
+            padding: 8px 12px;
+            margin-left: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Estilo exclusivo para o botão de logout */
+        .logout-button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #34495e;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">STUDYFLEX</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Logout</button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <section id="alterar-senha">
+        <div class="container">
+            <h1>Alterar Senha</h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="password1">Nova Senha:</label>
+                    <div class="button-container">
+                        <input type="password" id="password1" name="password1" required>
+                        <button type="button" class="button button-toggle" onclick="togglePassword('password1', this)">Mostrar</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="password2">Confirme a Nova Senha:</label>
+                    <div class="button-container">
+                        <input type="password" id="password2" name="password2" required>
+                        <button type="button" class="button button-toggle" onclick="togglePassword('password2', this)">Mostrar</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="button button-submit">Alterar Senha</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function togglePassword(fieldId, button) {
+            const field = document.getElementById(fieldId);
+            const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+            field.setAttribute('type', type);
+
+            button.textContent = type === 'password' ? 'Mostrar' : 'Ocultar';
+        }
+    </script>
+</body>
+</html>
