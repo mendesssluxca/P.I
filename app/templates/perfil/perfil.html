@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil - STUDYFLEX</title>
+    <title>Meu Perfil - Fisiologia Humana</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <style>
@@ -109,9 +109,10 @@
     </style>
 </head>
 <body>
+    
     <header>
         <nav>
-            <a href="/" class="logo">STUDYFLEX</a>
+            <a href="/" class="logo">Fisiologia Humana</a>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'sobre' %}">Sobre</a></li>
@@ -149,9 +150,13 @@
             {% csrf_token %}
         </form>
     </section>
-
+    {% if user.is_superuser %}
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; text-align: center; margin-bottom: 20px; font-weight: bold;">
+        Aviso: Você está logado como superusuário. Algumas funcionalidades podem não funcionar como esperado.
+    </div>
+    {% endif %}
     <footer>
-        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Fisiologia Humana. Todos os direitos reservados.</p>
     </footer>
 
     <script>

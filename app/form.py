@@ -2,8 +2,19 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Usuario, Flashcard, Topico, FileUpload
+from .models import Usuario, Flashcard, Topico, FileUpload, Duvida, Comentario
 
+
+class DuvidaForm(forms.ModelForm):
+    class Meta:
+        model = Duvida
+        fields = ['titulo', 'duvida']
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['texto']
+        
 class FlashcardForm(forms.ModelForm):
     class Meta:
         model = Flashcard

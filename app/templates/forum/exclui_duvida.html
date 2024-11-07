@@ -1,0 +1,11 @@
+<h1>Excluir Dúvida</h1>
+<p>Você tem certeza que deseja excluir a seguinte dúvida?</p>
+<p><strong>Título:</strong> {{ duvida.titulo }}</p>
+<p><strong>Dúvida:</strong> {{ duvida.duvida }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar Exclusão</button>
+</form>
+
+<a href="{% url 'detalhes_duvida' duvida.id %}">Cancelar</a>

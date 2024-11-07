@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum de Dúvidas - Fisiologia Humana</title>
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <style>
+        nav a:hover {
+            color: #ffc107; 
+        }
+
+        /* Formatação da caixa central (container) */
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1000px;
+            font-family: 'Arial', sans-serif;
+            background: #f9f9f9;
+        }
+
+        .container h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Links de novas perguntas */
+        .new-question-link {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .new-question-link:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Estilo da lista de dúvidas */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li a {
+            font-size: 18px;
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            color: #1abc9c;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-container a, .button-container form button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container a:hover, .button-container form button:hover {
+            background-color: #c0392b;
+        }
+
+        .auth-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-button:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .container h1 {
+                font-size: 24px;
+            }
+
+            .new-question-link {
+                width: 100%;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .button-container {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">Fisiologia Humana</a>
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/5Pn6L3nQazyjgrNJ7">Contato</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="auth-button logout-button">Logout</button>
+                </form>
+            </div>
+            {% else %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+                <li><a href="https://forms.gle/5Pn6L3nQazyjgrNJ7">Contato</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section id="home" class="content-section">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <h1>Olá, {{ user.username }}!</h1>
+            <a href="{% url 'cria_duvida' %}" class="new-question-link">Fazer uma nova pergunta</a>
+            <ul>
+                {% for duvida in duvidas %}
+                <li>
+                    <a href="{% url 'detalhes_duvida' duvida.id %}">{{ duvida.titulo }}</a>
+                    {% if request.user == duvida.autor or request.user.is_staff %}
+                    <div class="button-container">
+                        <a href="{% url 'edita_duvida' duvida.id %}">Editar Dúvida</a>
+                        <form method="post" action="{% url 'exclui_duvida' duvida.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir esta dúvida?');">Excluir Dúvida</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li>Nenhuma dúvida cadastrada ainda.</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <h1>Olá, visitante!</h1>
+            <p>Bem-Vindo ao Fórum de Dúvidas da Fisiologia Humana! Faça login ou cadastre-se para participar:</p>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="auth-button">Login</a>
+                <a href="{% url 'register' %}" class="auth-button">Cadastrar</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Fisiologia Humana. Todos os direitos reservados.</p>
+    </footer>
+</body>
+
+</html>

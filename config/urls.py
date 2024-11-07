@@ -12,7 +12,16 @@ from app.views import (
     visualizar_topico,
     editar_perfil, 
     editar_senha, 
-    excluir_conta
+    excluir_conta,
+    edita_comentario,
+    exclui_comentario,
+    lista_duvidas,
+    cria_duvida,
+    detalhes_duvida,
+    edita_duvida,
+    exclui_duvida
+    
+    
 
 )
 
@@ -55,6 +64,18 @@ urlpatterns = [
     path('uploads/', views.lista_uploads, name='lista_uploads'),
     path('uploads/deletar/<int:pk>/', views.deletar_arquivo, name='deletar_arquivo'),
     path('editar_arquivo/<int:pk>/', views.editar_arquivo, name='editar_arquivo'),
+    
+    # URLs do Fórum
+    path('duvidas/', lista_duvidas, name='lista_duvidas'),  # Lista de dúvidas
+    path('duvidas/nova/', cria_duvida, name='cria_duvida'),  # Criar nova dúvida
+    path('duvidas/<int:id>/', detalhes_duvida, name='detalhes_duvida'),  # Detalhes de uma dúvida
+    path('duvidas/edita/<int:id>/', edita_duvida, name='edita_duvida'),  # Editar dúvida
+    path('duvidas/exclui/<int:id>/', exclui_duvida, name='exclui_duvida'),  # Excluir dúvida
+
+    # URLs de comentários
+    path('comentario/<int:comentario_id>/edita/', edita_comentario, name='edita_comentario'),  # Editar comentário
+    path('comentario/<int:comentario_id>/exclui/', exclui_comentario, name='exclui_comentario'),  # Excluir comentário
+
 
 ]
 if settings.DEBUG:

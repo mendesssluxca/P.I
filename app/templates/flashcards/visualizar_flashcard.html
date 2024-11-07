@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards - STUDYFLEX</title>
+    <title>Flashcards</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
 </head>
@@ -13,7 +13,7 @@
     <header>
         <nav>
            
-            <a href="/" class="logo">STUDYFLEX</a>
+            <a href="/" class="logo">Fisiologia Humana</a>
             {% if user.is_authenticated %}
             <ul>
                 <li><a href="/">Home</a></li>
@@ -43,7 +43,7 @@
 <p>{{ flashcard.texto_verso }}</p>
 <a href="{% url 'listar_flashcards' %}">Voltar</a>
     <footer>
-        <p>&copy; 2024 STUDYFLEX. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Fisiologia Humana. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>

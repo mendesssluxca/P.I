@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, update_session_auth_hash
+from django.db.models import Q
 from django.contrib import messages
 from django.views import View
 
@@ -11,7 +12,9 @@ from .form import (
     FlashcardForm,
     TopicoForm,
     UserProfileForm,
-    FileUploadForm
+    FileUploadForm,
+    DuvidaForm,
+    ComentarioForm,
     )
 
 # Importação de Models.py
@@ -19,7 +22,9 @@ from .models import (
     Usuario,
     Flashcard,
     Topico,
-    FileUpload
+    FileUpload,
+    Duvida,
+    Comentario
     )
 
 # Index
@@ -90,19 +95,24 @@ def editar_perfil(request):
 
     return render(request, 'perfil/editar_perfil.html', {'usuario': usuario, 'user': user})
 
-@login_required
 def perfil(request):
-    usuario = request.user.usuario  
+    if request.user.is_authenticated:
+        try:
+            # Tente acessar o objeto Usuario relacionado ao User
+            usuario = request.user.usuario
+            usuario_nao_encontrado = False
+        except Usuario.DoesNotExist:
+            # Caso não exista, defina a variável para mostrar que o superusuário não tem um 'usuario'
+            usuario = None
+            usuario_nao_encontrado = True
 
-    if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=usuario)  
-        if form.is_valid():
-            form.save()  
-            return redirect('perfil') 
-    else: 
-        form = UserProfileForm(instance=usuario)  
+        return render(request, 'perfil/perfil.html', {
+            'usuario': usuario,
+            'usuario_nao_encontrado': usuario_nao_encontrado
+        })
+    else:
+        return redirect('login')
 
-    return render(request, 'perfil/perfil.html', {'form': form, 'usuario': usuario})
 
 
 # Registro de Usuário
@@ -183,12 +193,15 @@ def criar_topico(request):
 @login_required
 def listar_topicos(request):
     if request.user.is_staff:
-        topicos = Topico.objects.all()  # Administradores veem todos
+        # Admins veem todos os tópicos disponíveis no sistema
+        topicos = Topico.objects.filter(disponivel_no_sistema=True)
     else:
-        topicos = Topico.objects.filter(owner=request.user)  # Usuários veem apenas seus próprios tópicos
+        # Usuários veem tópicos próprios e também os do sistema
+        topicos = Topico.objects.filter(
+            Q(owner=request.user) | Q(disponivel_no_sistema=True)
+        )
     
     return render(request, 'topicos/listar_topicos.html', {'topicos': topicos})
-
 
 @login_required
 def editar_topico(request, topico_id):
@@ -275,3 +288,101 @@ def editar_arquivo(request, pk):
         form = FileUploadForm(instance=arquivo)
 
     return render(request, 'arquivos_upload/editar_arquivo.html', {'form': form, 'arquivo': arquivo})
+
+
+@login_required
+def lista_duvidas(request):
+    duvidas = Duvida.objects.all()
+    return render(request, 'forum/lista_duvidas.html', {'duvidas': duvidas})
+
+@login_required
+def detalhes_duvida(request, id):
+    duvida = get_object_or_404(Duvida, id=id)
+    comentarios = duvida.comentarios.all()
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentarios = duvida.comentarios.order_by('-data_criacao')
+            comentario = form.save(commit=False)
+            comentario.autor = request.user
+            comentario.duvida = duvida
+            comentario.save()
+            return redirect('detalhes_duvida', id=duvida.id)
+    else:
+        form = ComentarioForm()
+    return render(request, 'forum/detalhes_duvida.html', {'duvida': duvida, 'comentarios': comentarios, 'form': form})
+
+@login_required
+def cria_duvida(request):
+    if request.method == 'POST':
+        form = DuvidaForm(request.POST)
+        if form.is_valid():
+            titulo = form.cleaned_data['titulo']
+            if Duvida.objects.filter(titulo=titulo).exists():
+                messages.error(request, "Já existe uma dúvida com esse título.")
+                return render(request, 'forum/cria_duvida.html', {'form': form})
+            duvida = form.save(commit=False)
+            duvida.autor = request.user
+            duvida.save()
+            messages.success(request, "Dúvida criada com sucesso!")
+            return redirect('lista_duvidas')
+    else:
+        form = DuvidaForm()
+    return render(request, 'forum/cria_duvida.html', {'form': form})
+
+@login_required
+def edita_duvida(request, id):
+    duvida = get_object_or_404(Duvida, id=id)
+    if request.user != duvida.autor and not request.user.is_staff:
+        messages.error(request, "Você não tem permissão para editar esta dúvida.")
+        return redirect('detalhes_duvida', id=duvida.id)
+    if request.method == 'POST':
+        form = DuvidaForm(request.POST, instance=duvida)
+        if form.is_valid():
+            titulo = form.cleaned_data['titulo']
+            if Duvida.objects.exclude(id=duvida.id).filter(titulo=titulo).exists():
+                messages.error(request, "Já existe uma dúvida com esse título.")
+                return render(request, 'forum/edita_duvida.html', {'form': form, 'duvida': duvida})
+            form.save()
+            messages.success(request, "Dúvida atualizada com sucesso!")
+            return redirect('detalhes_duvida', id=duvida.id)
+    else:
+        form = DuvidaForm(instance=duvida)
+    return render(request, 'forum/edita_duvida.html', {'form': form, 'duvida': duvida})
+
+@login_required
+def exclui_duvida(request, id):
+    duvida = get_object_or_404(Duvida, id=id)
+    if request.user != duvida.autor and not request.user.is_staff:
+        messages.error(request, "Você não tem permissão para excluir esta dúvida.")
+        return redirect('detalhes_duvida', id=duvida.id)
+    if request.method == 'POST':
+        duvida.delete()
+        messages.success(request, "Dúvida excluída com sucesso!")
+        return redirect('lista_duvidas')
+    return render(request, 'forum/exclui_duvida.html', {'duvida': duvida})
+
+@login_required
+def edita_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Comentário atualizado com sucesso!")
+            return redirect('detalhes_duvida', id=comentario.duvida.id)
+    else:
+        form = ComentarioForm(instance=comentario)
+    return render(request, 'forum/edita_comentario.html', {'form': form, 'duvida': comentario.duvida})
+
+@login_required
+def exclui_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    if request.user != comentario.autor and not request.user.is_superuser:
+        messages.error(request, "Você não tem permissão para excluir este comentário.")
+        return redirect('detalhes_duvida', id=comentario.duvida.id)
+    if request.method == 'POST':
+        comentario.delete()
+        messages.success(request, "Comentário excluído com sucesso!")
+        return redirect('detalhes_duvida', id=comentario.duvida.id)
+    return render(request, 'forum/exclui_comentario.html', {'comentario': comentario})

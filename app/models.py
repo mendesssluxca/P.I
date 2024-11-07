@@ -15,6 +15,8 @@ class Usuario(models.Model):
 class Topico(models.Model):
     id_topico = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=45)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null= True)
+    disponivel_no_sistema = models.BooleanField(default=False)  
     def __str__(self):
         return self.nome
 
@@ -36,3 +38,25 @@ class FileUpload(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username} - {self.legenda}"
+
+class Duvida(models.Model):
+    titulo = models.CharField(max_length=255, default="Sem título")
+    autor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    duvida = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Dúvidas"
+
+    def __str__(self):
+        return self.titulo
+
+
+class Comentario(models.Model):
+    duvida = models.ForeignKey(Duvida, related_name="comentarios", on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    texto = models.TextField()
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comentário de {self.autor} em {self.duvida}"
+
