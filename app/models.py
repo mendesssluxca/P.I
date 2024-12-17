@@ -29,16 +29,6 @@ class Flashcard(models.Model):
     def __str__(self):
         return self.texto_frente
 
-
-class FileUpload(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)  # Quem fez o upload
-    arquivo = models.FileField(upload_to='uploads/')  # O arquivo ou imagem
-    legenda = models.CharField(max_length=255, blank=True)  # Legenda do arquivo
-    data_upload = models.DateTimeField(auto_now_add=True)  # Data de upload
-
-    def __str__(self):
-        return f"{self.usuario.username} - {self.legenda}"
-
 class Duvida(models.Model):
     titulo = models.CharField(max_length=255, default="Sem título")
     autor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

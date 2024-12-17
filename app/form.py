@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Usuario, Flashcard, Topico, FileUpload, Duvida, Comentario
+from .models import Usuario, Flashcard, Topico, Duvida, Comentario
 
 
 class DuvidaForm(forms.ModelForm):
@@ -62,7 +62,3 @@ class TopicoForm(forms.ModelForm):
         model = Topico
         fields = ['nome']  
 
-class FileUploadForm(forms.ModelForm):
-    class Meta:
-        model = FileUpload
-        fields = ['arquivo', 'legenda']

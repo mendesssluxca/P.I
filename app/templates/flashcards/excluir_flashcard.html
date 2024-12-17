@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excluir Flashcard</title>
+    <title>Excluir Flashcard - Fisiologia Humana</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <style>
-       
-
         h1 {
             text-align: center;
             color: #343a40; /* Cor do título */
+            margin-top: 30px; /* Espaçamento superior */
         }
 
-        p {
+        .certeza {
             text-align: center;
             font-size: 18px;
             color: #495057; /* Cor do texto */
+            margin-top: 20px; /* Espaçamento superior */
         }
 
         form {
@@ -45,7 +45,7 @@
         a {
             display: block;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px; /* Espaçamento superior */
             color: #007bff; /* Azul */
             text-decoration: none;
             font-size: 16px;
@@ -55,8 +55,6 @@
         a:hover {
             color: #0056b3; /* Azul mais escuro ao passar o mouse */
         }
-
-
     </style>
 </head>
 <body>
@@ -66,8 +64,8 @@
             {% if user.is_authenticated %}
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="{% url 'sobre' %}">Sobre</a></li>
                 <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                <li><a href="/perfil">Meu Perfil</a></li>
             </ul>
             <div class="auth-buttons">
                 <form method="post" action="{% url 'logout' %}" class="logout-form">
@@ -76,17 +74,17 @@
                 </form>
             </div>
             {% else %}
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/sobre">Sobre</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>           
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                    <li><a href="{% url 'login' %}" class="auth-button">Login</a></li>
+                </ul>
             {% endif %}
         </nav>
     </header>
 
     <h1>Excluir Flashcard</h1>
-    <p>Você tem certeza que deseja excluir o flashcard "{{ flashcard.texto_frente }}"?</p>
+    <p class="certeza">Você tem certeza que deseja excluir o flashcard "{{ flashcard.texto_frente }}"?</p>
     <form method="POST">
         {% csrf_token %}
         <button type="submit">Excluir</button>

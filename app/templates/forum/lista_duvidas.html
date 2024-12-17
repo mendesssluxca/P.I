@@ -5,148 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fórum de Dúvidas - Fisiologia Humana</title>
-    {% load static %}  
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <style>
-        nav a:hover {
-            color: #ffc107; 
-        }
+    section { 
+        padding: 20px; 
+        margin: 20px auto; 
+        width: 100%; 
+        max-width: 800px; 
+        background: #fff; 
+        border-radius: 10px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    } 
+    .title { 
+        color: #1c2064; 
+        text-align: center; 
+    } 
+    .nova { 
+        color: #1b4965; 
+        text-decoration: none; 
+        border: 1.8px solid #123456; 
+        font-size: 1rem; 
+        padding: 0.5rem 1rem; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        max-width: 250px; 
+        text-align: center; 
+        display: block; 
+        margin: 20px auto; 
+    } 
+    .nova:hover { 
+        background-color: #123456; 
+        color: #fff; 
+    } 
+    ul { 
+        list-style-type: none; 
+        padding: 0; 
+    } 
+    ul li { 
+        margin: 10px 0; 
+    } 
+    .duvida { 
+        margin-bottom: 10px; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+    } 
+    .editar { 
+        color: #1b4965; 
+    } 
+    .editar:hover { 
+        text-decoration: underline; 
+    } 
+    button { 
+        background-color: #1b4965; 
+        color: white; 
+        border: none;
+        border-radius: 5px; 
+        padding: 5px 10px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+        display: block; 
+        margin: 0 auto; 
+    } 
+    button:hover { 
+        background-color: #123456;
 
-        /* Formatação da caixa central (container) */
-        .container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            max-width: 1000px;
-            font-family: 'Arial', sans-serif;
-            background: #f9f9f9;
-        }
+    } 
+    .none { 
+        color: #5a5fbd; 
+        
+    } 
+    .nome { 
+        font-size: 1.2rem; 
+        color: #23395d; 
+        font-weight: bold; 
+        flex-grow: 1; 
+        text-align: left; 
+        margin: 0 auto; 
+    } 
+    .actions {
+        margin-top: 15px; 
+        transition: background-color 0.3s ease; 
+        display: flex; 
+        gap: 10px; 
+    } 
+    .actions {
+            margin-top: 15px;
+            transition: background-color 0.3s ease; 
+            display: flex;         
+            gap: 10px;   
+        } 
 
-        .container h1 {
-            font-size: 28px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .container p {
-            font-size: 18px;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        /* Links de novas perguntas */
-        .new-question-link {
-            display: inline-block;
-            background-color: #27ae60;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-decoration: none;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .new-question-link:hover {
-            background-color: #2ecc71;
-        }
-
-        /* Estilo da lista de dúvidas */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background-color: white;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        li a {
-            font-size: 18px;
-            color: #2980b9;
-            text-decoration: none;
-        }
-
-        li a:hover {
-            color: #1abc9c;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 10px;
-        }
-
-        .button-container a, .button-container form button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .button-container a:hover, .button-container form button:hover {
-            background-color: #c0392b;
-        }
-
-        .auth-buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .auth-button {
-            background-color: #27ae60;
-            color: white;
-            padding: 10px 20px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .auth-button:hover {
-            background-color: #2ecc71;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .container h1 {
-                font-size: 24px;
-            }
-
-            .new-question-link {
-                width: 100%;
-            }
-
-            li {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .button-container {
-                margin-top: 10px;
-            }
-        }
+    li:hover { 
+        background-color: #b9bdfb; 
+        border-radius: 6px; 
+        transition: background-color 0.3s ease, border-radius 0.3s ease; 
+    }
     </style>
 </head>
 
@@ -155,11 +110,11 @@
         <nav>
             <a href="/" class="logo">Fisiologia Humana</a>
             {% if user.is_authenticated %}
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="{% url 'sobre' %}">Sobre</a></li>
-                <li><a href="https://forms.gle/5Pn6L3nQazyjgrNJ7">Contato</a></li>
-            </ul>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                    <li><a href="/perfil">Meu Perfil</a></li>
+                </ul>
             <div class="auth-buttons">
                 <form method="post" action="{% url 'logout' %}" class="logout-form">
                     {% csrf_token %}
@@ -167,50 +122,46 @@
                 </form>
             </div>
             {% else %}
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="{% url 'sobre' %}">Sobre</a></li>
-                <li><a href="https://forms.gle/5Pn6L3nQazyjgrNJ7">Contato</a></li>
-            </ul>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                    <li><a href="{% url 'login' %}" class="auth-button">Login</a></li>
+                </ul>           
             {% endif %}
         </nav>
     </header>
 
-    <section id="home" class="content-section">
-        <div class="container">
-            {% if user.is_authenticated %}
+    <section>
+        <div class="title">
             <h1>Olá, {{ user.username }}!</h1>
-            <a href="{% url 'cria_duvida' %}" class="new-question-link">Fazer uma nova pergunta</a>
+            </div>
+            <div class="nova">
+            <a href="{% url 'cria_duvida' %}">Fazer uma nova pergunta</a>
+            </div>
             <ul>
                 {% for duvida in duvidas %}
                 <li>
-                    <a href="{% url 'detalhes_duvida' duvida.id %}">{{ duvida.titulo }}</a>
+                    <div class="duvida">
+                    <a href="{% url 'detalhes_duvida' duvida.id %}" class="nome">{{ duvida.titulo }}</a>
                     {% if request.user == duvida.autor or request.user.is_staff %}
-                    <div class="button-container">
-                        <a href="{% url 'edita_duvida' duvida.id %}">Editar Dúvida</a>
+                    <div class="actions">
+                        <a href="{% url 'edita_duvida' duvida.id %}" class="editar">Editar</a>
                         <form method="post" action="{% url 'exclui_duvida' duvida.id %}" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir esta dúvida?');">Excluir Dúvida</button>
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir esta dúvida?');">Excluir</button>
                         </form>
-                    </div>
                     {% endif %}
-                </li>
+                    
+                </div>
+            </div>
+        </li>
                 {% empty %}
-                <li>Nenhuma dúvida cadastrada ainda.</li>
+                <li class="none">Nenhuma dúvida cadastrada ainda.</li>
                 {% endfor %}
             </ul>
-            {% else %}
-            <h1>Olá, visitante!</h1>
-            <p>Bem-Vindo ao Fórum de Dúvidas da Fisiologia Humana! Faça login ou cadastre-se para participar:</p>
-            <div class="auth-buttons">
-                <a href="{% url 'login' %}" class="auth-button">Login</a>
-                <a href="{% url 'register' %}" class="auth-button">Cadastrar</a>
-            </div>
-            {% endif %}
-        </div>
     </section>
 
-    <footer>
+    <footer >
         <p>&copy; 2024 Fisiologia Humana. Todos os direitos reservados.</p>
     </footer>
 </body>

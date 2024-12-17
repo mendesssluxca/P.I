@@ -12,16 +12,14 @@
             margin: 40px auto;
             padding: 20px;
             background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
         
         h1 {
             color: #333;
-        }
-        
-        .perfil-buttons {
+            text-align: center;
             margin-bottom: 20px;
         }
         
@@ -31,6 +29,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin-right: 10px;
+            transition: background-color 0.3s ease;
         }
         
         .btn-primary {
@@ -38,7 +37,11 @@
             color: white;
         }
         
-        /* Logout button specific style */
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        /* Estilo específico para o botão de logout */
         .logout-button {
             background-color: transparent;
             border: none;
@@ -56,6 +59,30 @@
         /* Adicionando espaçamento entre os itens do formulário */
         form div {
             margin-bottom: 15px; /* Espaçamento entre os itens */
+        }
+        
+        form div label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        form div input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .auth-buttons {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .auth-buttons .logout-form {
+            display: inline-block;
         }
     </style>
 </head>

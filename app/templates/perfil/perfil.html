@@ -12,8 +12,8 @@
             margin: 20px auto;
             padding: 20px;
             background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
 
@@ -22,21 +22,18 @@
         }
 
         .btn {
-            padding: 10px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             cursor: pointer;
-            display: inline-block;
-            width: 150px; /* Tamanho fixo para todos os botões */
             margin: 5px; /* Espaçamento entre os botões */
-            text-align: center;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary {
             background-color: #3498db; /* Azul */
             color: white;
             border: none;
-            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
@@ -47,22 +44,20 @@
             background-color: #2ecc71; /* Verde */
             color: white;
             border: none;
-            transition: background-color 0.3s ease;
         }
 
         .btn-success:hover {
-            background-color: #27ae60; /* Verde mais escuro ao passar o mouse */
+            background-color: #27ae60;
         }
 
         .btn-danger {
             background-color: #e74c3c; /* Vermelho */
             color: white;
             border: none;
-            transition: background-color 0.3s ease;
         }
 
         .btn-danger:hover {
-            background-color: #c0392b; /* Vermelho mais escuro ao passar o mouse */
+            background-color: #c0392b;
         }
 
         .profile-section {
@@ -115,7 +110,6 @@
             <a href="/" class="logo">Fisiologia Humana</a>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="{% url 'sobre' %}">Sobre</a></li>
                 <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
                 {% if user.is_authenticated %}
                     <!-- Removido o botão de logout do menu de navegação -->
@@ -134,8 +128,6 @@
             <p><strong>CPF:</strong> {{ usuario.cpf }}</p>
         </div>
         <div class="profile-actions">
-            <a href="{% url 'editar_senha' %}" class="btn btn-primary">Alterar Senha</a>
-            <span class="separator">|</span>
             <a href="{% url 'editar_perfil' %}" class="btn btn-success">Editar Perfil</a>
             <span class="separator">|</span>
             <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Excluir Conta</button>
@@ -163,8 +155,6 @@
         function confirmarExclusao() {
             if (confirm("Você tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita!")) {
                 document.getElementById('excluir-conta-form').submit();  // Submete o formulário após confirmação
-            } else {
-                alert("Exclusão de conta cancelada.");
             }
         }
     </script>

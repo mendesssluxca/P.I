@@ -58,12 +58,6 @@ urlpatterns = [
     path('perfil/editar/', editar_perfil, name='editar_perfil'),  
     path('perfil/editar_senha/', editar_senha, name='editar_senha'),  
     path('perfil/excluir_conta/', excluir_conta, name='excluir_conta'),  
-
-    #Arquivos Upload
-    path('upload/', views.upload_file, name='upload_file'),
-    path('uploads/', views.lista_uploads, name='lista_uploads'),
-    path('uploads/deletar/<int:pk>/', views.deletar_arquivo, name='deletar_arquivo'),
-    path('editar_arquivo/<int:pk>/', views.editar_arquivo, name='editar_arquivo'),
     
     # URLs do Fórum
     path('duvidas/', lista_duvidas, name='lista_duvidas'),  # Lista de dúvidas

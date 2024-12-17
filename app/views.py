@@ -12,7 +12,6 @@ from .form import (
     FlashcardForm,
     TopicoForm,
     UserProfileForm,
-    FileUploadForm,
     DuvidaForm,
     ComentarioForm,
     )
@@ -22,7 +21,6 @@ from .models import (
     Usuario,
     Flashcard,
     Topico,
-    FileUpload,
     Duvida,
     Comentario
     )
@@ -243,51 +241,6 @@ def visualizar_topico(request, topico_id):
 
     flashcards = topico.flashcard_set.all()  
     return render(request, 'topicos/visualizar_topico.html', {'topico': topico, 'flashcards': flashcards})
-
-
-#Arquivos
-@login_required
-def upload_file(request):
-    if request.method == 'POST':
-        form = FileUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            file_upload = form.save(commit=False)
-            file_upload.usuario = request.user  # Define o usuário atual como o dono do arquivo
-            file_upload.save()
-            return redirect('lista_uploads')
-    else:
-        form = FileUploadForm()
-    return render(request, 'arquivos_upload/upload_file.html', {'form': form})
-
-@login_required
-def lista_uploads(request):
-    if request.user.is_superuser:
-        arquivos = FileUpload.objects.all()  # Admin pode ver todos
-    else:
-        arquivos = FileUpload.objects.filter(usuario=request.user)  # Usuário vê apenas os próprios uploads
-    return render(request, 'arquivos_upload/lista_uploads.html', {'arquivos': arquivos})
-
-@login_required
-def deletar_arquivo(request, pk):
-    arquivo = get_object_or_404(FileUpload, pk=pk, usuario=request.user)
-    if request.method == 'POST':
-        arquivo.delete()
-        return redirect('lista_uploads')
-    return render(request, 'arquivos_upload/confirm_delete.html', {'arquivo': arquivo})
-
-@login_required
-def editar_arquivo(request, pk):
-    arquivo = get_object_or_404(FileUpload, pk=pk, usuario=request.user)
-    
-    if request.method == 'POST':
-        form = FileUploadForm(request.POST, request.FILES, instance=arquivo)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_uploads')
-    else:
-        form = FileUploadForm(instance=arquivo)
-
-    return render(request, 'arquivos_upload/editar_arquivo.html', {'form': form, 'arquivo': arquivo})
 
 
 @login_required

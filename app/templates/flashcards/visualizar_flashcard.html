@@ -17,8 +17,8 @@
             {% if user.is_authenticated %}
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="{% url 'sobre' %}">Sobre</a></li>
                 <li><a href="https://forms.gle/ijErrUVFgyykACWy9">Contato</a></li>
+                <li><a href="/perfil">Meu Perfil</a></li>
             </ul>
             <div class="auth-buttons">
                 <form method="post" action="{% url 'logout' %}" class="logout-form">
@@ -29,7 +29,7 @@
         {% else %}
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/sobre">Sobre</a></li>
+            <li><a href="/perfil">Meu perfil</a></li>
             <li><a href="#contact">Contato</a></li>
         </ul>           
         {% endif %}

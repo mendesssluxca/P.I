@@ -1,11 +1,9 @@
- /* Reset básico para remover margens e paddings padrão */
- * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilo geral do body */
 body {
     font-family: 'Roboto', sans-serif;
     color: #333;
@@ -13,7 +11,6 @@ body {
     background-color: #f4f4f4;
 }
 
-/* Estilos do header e navegação */
 header {
     background: linear-gradient(135deg, #2C3E50, #4A69BB);
     color: #fff;
@@ -47,6 +44,9 @@ nav ul li a:hover {
     color: #E67E22;
     text-decoration: underline;
 }
+nav a:hover {
+    color: #ffc107; 
+}
 
 .logo {
     font-size: 1.7rem;
@@ -56,7 +56,6 @@ nav ul li a:hover {
     color: #E67E22;
 }
 
-/* Botões de Login e Cadastro */
 .auth-buttons {
     display: flex;
     justify-content: center;
@@ -64,19 +63,19 @@ nav ul li a:hover {
 }
 
 .auth-buttons a, .auth-buttons button {
-    background-color: #E67E22; /* Cor padrão para login e cadastro */
+    background-color: #E67E22; 
     color: #fff;
     padding: 8px 15px;
     text-decoration: none;
     border-radius: 20px;
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-size: 1.0rem;
-    border: none; /* Remove a borda padrão dos botões */
-    cursor: pointer; /* Adiciona um cursor pointer para o botão */
+    border: none; 
+    cursor: pointer; 
 }
 
 .auth-buttons a:hover, .auth-buttons button:hover {
-    background-color: #D35400; /* Cor ao passar o mouse para login e cadastro */
+    background-color: #D35400; 
     transform: scale(1.05);
 }
 
@@ -192,7 +191,7 @@ footer {
     text-align: center;
     padding: 30px;
     margin-top: 40px;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    
 }
 
 footer p {
